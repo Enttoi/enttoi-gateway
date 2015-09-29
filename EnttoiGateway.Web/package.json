@@ -1,0 +1,16 @@
+{
+  "name": "EnttoiGateway.Web",
+  "version": "0.0.0",
+  "description": "EnttoiGateway.Web",
+  "main": "app.js",
+  "author": {
+    "name": "Amir",
+    "email": ""
+  },
+  "dependencies": {
+    "azure": "^0.10.6",
+    "express": "3.4.4",
+    "jade": "*",
+    "stylus": "*"
+  }
+}
