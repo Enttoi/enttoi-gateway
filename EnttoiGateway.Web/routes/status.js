@@ -1,7 +1,7 @@
 ﻿/*
  * Saves Status
  */
-
+ 
 var express = require('express');
 var azure = require('azure-storage');
 
