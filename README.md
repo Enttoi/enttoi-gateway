@@ -1,6 +1,3 @@
-# Enttoi Gateway Node.js
+﻿# EnttoiGateway.Web
 
-*This repository is part of [Enttoi](http://enttoi.github.io/) project.*
-
-Central gateway for all Raspberry Pi's. 
 
