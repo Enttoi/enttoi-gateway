@@ -32,7 +32,7 @@ app.get('')
 app.get('/', routes.index);
 app.get('/users', user.list);
 //app.post('/status', status.report);
-app.get('/status', status.report);
+app.post('/status', status.report);
 
 
 http.createServer(app).listen(app.get('port'), function () {

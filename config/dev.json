@@ -1,0 +1,11 @@
+﻿{ 
+  "statusStorage": {
+    "storageAccount": "enttoi",
+    "storageAccessKey": "aSrmJbPArvZevhgR62doMkGq9xk9i2azOrNZLgqD9PVFT1u3IR31nPd9sIqeg5G99Y4TWqo8OgjWgkQOaMeybw==",
+    "credit": {
+      "initialLimit": 100,
+      // Set low for development
+      "initialDays": 1
+    }
+  }
+}

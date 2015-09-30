@@ -10,8 +10,11 @@
   "dependencies": {
     "azure": "^0.10.6",
     "azure-storage": "^0.6.0",
-    "express": "3.4.4",
-    "jade": "*",
-    "stylus": "*"
+    "config": "^1.16.0",
+    "express": "^3.4.4",
+    "http": "0.0.0",
+    "jade": "^1.11.0",
+    "routes": "^2.1.0",
+    "stylus": "^0.52.4"
   }
 }
