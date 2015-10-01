@@ -19,7 +19,8 @@ exports.report = function (req, res) {
     
     //Send Queue Message    
     //var serviceBusService = require('azure').createServiceBusService('Endpoint=sb://enttoi.servicebus.windows.net/;SharedAccessKeyName=All;SharedAccessKey=hxIHZjUiUDhOu9LhWL/RsWTDcdx9mhzDm75L7NPB6WA=');
-    var serviceBusService = require('azure').createServiceBusService();
+    //var serviceBusService = require('azure').createServiceBusService();
+    var serviceBusService = require('azure').createServiceBusService(process.env.AZURE_SERVICEBUS_CONNSTR);
                                                                       
     //serviceBusService.createQueueIfNotExists('statusQ', function (error) {
     //    if (!error) {
