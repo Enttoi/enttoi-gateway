@@ -6,9 +6,9 @@ var express = require('express');
 var azure = require('azure-storage');
 var config = require('config');
 
-var STATUS_TABLE_NAME = "ToiletStatus";
-var STORAGE_ACCOUNT = "enttoi";
-var STORAGE_ACCESS_KEY = "aSrmJbPArvZevhgR62doMkGq9xk9i2azOrNZLgqD9PVFT1u3IR31nPd9sIqeg5G99Y4TWqo8OgjWgkQOaMeybw==";
+var STATUS_TABLE_NAME = process.env.STATUS_TABLE_NAME; // "ToiletStatus"; //
+var STORAGE_ACCOUNT = process.env.STORAGE_ACCOUNT; //"enttoi";
+var STORAGE_ACCESS_KEY = process.env.STORAGE_ACCESS_KEY;// "aSrmJbPArvZevhgR62doMkGq9xk9i2azOrNZLgqD9PVFT1u3IR31nPd9sIqeg5G99Y4TWqo8OgjWgkQOaMeybw==";
 
 
 exports.report = function (req, res) {
@@ -25,7 +25,7 @@ exports.report = function (req, res) {
 	
 	var statusReport = {
 		PartitionKey : { '_': req.body.room, '$': 'Edm.Int32' },//room
-		RowKey: { '_': req.body.door, '$': 'Edm.Int32' },//door id
+		RowKey: { '_': req.body.door, '$': 'Edm.Guid' },//door id
 		Status: { '_': req.body.status, '$': 'Edm.Int32' },//status 0:notInUse , 1:InUse
 		TimeStamp: { '_': new Date(), '$': 'Edm.DateTime' }
 	};

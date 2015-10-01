@@ -1,0 +1,48 @@
+{
+	"id": "b10ae6b6-16e8-8729-4feb-be29019a007d",
+	"name": "Enttoi",
+	"requests": [
+		{
+			"id": "6427b2e4-5185-965d-2063-25e8c2997e2b",
+			"headers": "",
+			"url": "http://enttoigw.azurewebsites.net/status",
+			"preRequestScript": "",
+			"pathVariables": {},
+			"method": "POST",
+			"data": [
+				{
+					"key": "room",
+					"value": "1",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "status",
+					"value": "2",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "door",
+					"value": "1f2b1b00-23e7-40f7-8253-4af78a3d9bb9",
+					"type": "text",
+					"enabled": true
+				}
+			],
+			"dataMode": "urlencoded",
+			"version": 2,
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1443687595607,
+			"name": "Simple Status Report",
+			"description": "",
+			"collectionId": "b10ae6b6-16e8-8729-4feb-be29019a007d",
+			"responses": []
+		}
+	],
+	"order": [
+		"6427b2e4-5185-965d-2063-25e8c2997e2b"
+	],
+	"timestamp": 1443611635215
+}
