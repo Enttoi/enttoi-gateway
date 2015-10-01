@@ -17,7 +17,30 @@ exports.report = function (req, res) {
         success : 'Updated Successfully'
     };
     
-    //updating 
+    //Send Queue Message    
+    //var serviceBusService = require('azure').createServiceBusService('Endpoint=sb://enttoi.servicebus.windows.net/;SharedAccessKeyName=All;SharedAccessKey=hxIHZjUiUDhOu9LhWL/RsWTDcdx9mhzDm75L7NPB6WA=');
+    var serviceBusService = require('azure').createServiceBusService();
+                                                                      
+    //serviceBusService.createQueueIfNotExists('statusQ', function (error) {
+    //    if (!error) {
+    //    // Queue exists
+    //    }
+    //});
+    
+    var message = {
+        body: JSON.stringify(req.body),
+        customProperties: {
+            testproperty: 'TestValue'
+        }
+    };
+    serviceBusService.sendQueueMessage('statusQ', message, function (error) {
+        if (!error) {
+        // message sent
+        }
+    });
+    
+    
+    //updating Storage
     var tableService = azure.createTableService(STORAGE_ACCOUNT, STORAGE_ACCESS_KEY);
     tableService.createTableIfNotExists(STATUS_TABLE_NAME, function () {
         console.log("ToiletStatus Created..")
@@ -29,7 +52,7 @@ exports.report = function (req, res) {
         Status: { '_': req.body.status, '$': 'Edm.Int32' },//status 0:notInUse , 1:InUse
         TimeStamp: { '_': new Date(), '$': 'Edm.DateTime' }
     };
-     
+    
     
     tableService.insertOrReplaceEntity(STATUS_TABLE_NAME, statusReport, function (error) {
         if (!error) {
@@ -37,33 +60,7 @@ exports.report = function (req, res) {
         }
     });
     
-    require('azure').createServiceBusService('enttoi', 'CKwGw04VATdhm+TaUviuqKn4nHlpWZUJqC96SV7w/UU=');
-    
-    //Send Queue Message
-    var serviceBusService = azure.createServiceBusService();    
-    
-    serviceBusService.createQueueIfNotExists('statusQ', function (error) {
-        if (!error) {
-        // Queue exists
-        }
-    });
-    
-    var message = {
-        body: req.body,
-        customProperties: {
-            testproperty: 'TestValue'
-        }
-    };
-    serviceBusService.sendQueueMessage('statusQ', message, function (error) {
-        if (!error) {
-        // message sent
-        }
-    });
-    
-
-    
-
-    
+     
     res.end(JSON.stringify(response));
 
 
