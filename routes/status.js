@@ -6,9 +6,9 @@ var express = require('express');
 var azure = require('azure-storage');
 var config = require('config');
 
-var STATUS_TABLE_NAME = process.env.STATUS_TABLE_NAME; // "ToiletStatus"; //
-var STORAGE_ACCOUNT = process.env.STORAGE_ACCOUNT; //"enttoi";
-var STORAGE_ACCESS_KEY = process.env.STORAGE_ACCESS_KEY;// "aSrmJbPArvZevhgR62doMkGq9xk9i2azOrNZLgqD9PVFT1u3IR31nPd9sIqeg5G99Y4TWqo8OgjWgkQOaMeybw==";
+var STATUS_TABLE_NAME = process.env.STATUS_TABLE_NAME; 
+var STORAGE_ACCOUNT = process.env.STORAGE_ACCOUNT; 
+var STORAGE_ACCESS_KEY = process.env.STORAGE_ACCESS_KEY;
 
 
 exports.report = function (req, res) {
