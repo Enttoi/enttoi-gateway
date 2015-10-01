@@ -4,7 +4,7 @@
  
 var express = require('express');
 var azure = require('azure-storage');
-var config = require('config');
+
 
 var STATUS_TABLE_NAME = process.env.STATUS_TABLE_NAME; 
 var STORAGE_ACCOUNT = process.env.STORAGE_ACCOUNT; 
