@@ -11,6 +11,7 @@
     "jade": "^1.11.0",
     "routes": "^2.1.0",
     "stylus": "^0.52.4",
-    "errorhandler": "~1.4.2"
+    "errorhandler": "~1.4.2",
+    "express-validator": "^2.17.1"
   }
 }

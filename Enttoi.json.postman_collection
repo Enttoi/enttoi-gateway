@@ -1,48 +1,37 @@
 {
-	"id": "b10ae6b6-16e8-8729-4feb-be29019a007d",
+	"id": "4db8c788-01d1-24b3-b76a-d5a4d6ed629c",
 	"name": "Enttoi",
+	"description": "",
+	"order": [
+		"d284c435-06b0-359b-6c71-8d4de2ebe9d9"
+	],
+	"folders": [],
+	"timestamp": 1443644227019,
+	"owner": "118332",
+	"remoteLink": "https://www.getpostman.com/collections/40489326758383488e07",
+	"public": false,
 	"requests": [
 		{
-			"id": "6427b2e4-5185-965d-2063-25e8c2997e2b",
-			"headers": "",
+			"id": "d284c435-06b0-359b-6c71-8d4de2ebe9d9",
+			"headers": "Content-Type: application/json\n",
 			"url": "http://enttoigw.azurewebsites.net/status",
 			"preRequestScript": "",
 			"pathVariables": {},
 			"method": "POST",
-			"data": [
-				{
-					"key": "room",
-					"value": "1",
-					"type": "text",
-					"enabled": true
-				},
-				{
-					"key": "status",
-					"value": "2",
-					"type": "text",
-					"enabled": true
-				},
-				{
-					"key": "door",
-					"value": "1f2b1b00-23e7-40f7-8253-4af78a3d9bb9",
-					"type": "text",
-					"enabled": true
-				}
-			],
-			"dataMode": "urlencoded",
+			"data": [],
+			"dataMode": "raw",
 			"version": 2,
 			"tests": "",
 			"currentHelper": "normal",
-			"helperAttributes": {},
-			"time": 1443687595607,
-			"name": "Simple Status Report",
+			"helperAttributes": "{}",
+			"time": 1443813552317,
+			"name": "http://enttoigw.azurewebsites.net/status",
 			"description": "",
-			"collectionId": "b10ae6b6-16e8-8729-4feb-be29019a007d",
-			"responses": []
+			"collectionId": "4db8c788-01d1-24b3-b76a-d5a4d6ed629c",
+			"responses": [],
+			"descriptionFormat": "html",
+			"folder": null,
+			"rawModeData": "{\n    \"client\": \"e997b810-f0ae-4cde-b933-e2ed6430d2d1\",\n    \"sensor_type\": \"cabin_door\",\n    \"sensor_id\": 1,\n    \"state\":1\n}"
 		}
-	],
-	"order": [
-		"6427b2e4-5185-965d-2063-25e8c2997e2b"
-	],
-	"timestamp": 1443611635215
+	]
 }

@@ -2,22 +2,30 @@
  * Module dependencies.
  */
 
-var express = require('express');
-var routes = require('./routes');
-var status = require('./routes/status');
-var http = require('http');
-var path = require('path');
-var bodyParser = require('body-parser');
-var errorhandler = require('errorhandler')
+var express = require('express'),
+    routes = require('./routes'),
+    sensor = require('./routes/sensor'),
+    http = require('http'),
+    path = require('path'),
+    bodyParser = require('body-parser'),
+    errorhandler = require('errorhandler'),
+    expressValidator = require('express-validator');
 
 var app = express();
 
 // all environments
-app.set('port', process.env.PORT || 3000); 
+app.set('port', process.env.PORT || 3000);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(expressValidator({
+    customValidators: {
+        isGuid: function (value) {
+            return /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/.test(value)
+        }
+    }
+}));
 
 app.use(require('stylus').middleware(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
@@ -30,7 +38,7 @@ if ('development' == app.get('env')) {
 // routes
 var router = express.Router();
 router.get('/', routes.index);
-router.post('/status', status.post);
+router.post('/sensor', sensor.post);
 app.use('/', router);
 
 // server
