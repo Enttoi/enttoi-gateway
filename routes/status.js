@@ -20,25 +20,21 @@ exports.report = function (req, res) {
 	//updating 
 	var tableService = azure.createTableService(STORAGE_ACCOUNT, STORAGE_ACCESS_KEY);
 	tableService.createTableIfNotExists(STATUS_TABLE_NAME, function () {
-		console.log("ToiletStatus Created..")
+		console.log("STATUS_TABLE created..")
 	});
 	
 	var statusReport = {
-		PartitionKey : { '_': req.body.room, '$': 'Edm.Int32' },//room
-		RowKey: { '_': req.body.door, '$': 'Edm.Guid' },//door id
+		PartitionKey : { '_': req.body.room, '$': 'Edm.Guid' },//room
+		RowKey: { '_': req.body.door, '$': 'Edm.Int32' },//door id
 		Status: { '_': req.body.status, '$': 'Edm.Int32' },//status 0:notInUse , 1:InUse
 		TimeStamp: { '_': new Date(), '$': 'Edm.DateTime' }
 	};
 	
 	tableService.insertOrReplaceEntity(STATUS_TABLE_NAME, statusReport, function (error) {
-		if (!error) {
-			console.log("entry added/updated");
+		if (error) {
+			console.log("Failed to insert/update row: " + JSON.stringify(error));
 		}
 	});
 	
 	res.end(JSON.stringify(response));
-
-
-
-
 };

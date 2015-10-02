@@ -1,11 +1,11 @@
 {
-  "name": "EnttoiGateway.Web",
-  "version": "0.0.0",
-  "description": "EnttoiGateway.Web",
+  "name": "EnttoiGateway",
+  "version": "0.0.1",
+  "description": "Central gateway for all Raspberry Pi's",
   "main": "app.js",
+  "license": "MIT",
   "author": {
-    "name": "Amir",
-    "email": ""
+    "name": "Enttoi"
   },
   "dependencies": {
     "azure": "^0.10.6",
