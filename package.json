@@ -1,19 +1,16 @@
 {
   "name": "EnttoiGateway",
   "version": "0.0.1",
-  "description": "Central gateway for all Raspberry Pi's",
   "main": "app.js",
-  "license": "MIT",
-  "author": {
-    "name": "Enttoi"
-  },
   "dependencies": {
     "azure": "^0.10.6",
     "azure-storage": "^0.6.0",
-    "express": "^3.4.4",
+    "body-parser": "^1.0.2",
+    "express": "~4.13.3",
     "http": "0.0.0",
     "jade": "^1.11.0",
     "routes": "^2.1.0",
-    "stylus": "^0.52.4"
+    "stylus": "^0.52.4",
+    "errorhandler": "~1.4.2"
   }
 }

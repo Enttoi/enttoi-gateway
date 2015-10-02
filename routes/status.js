@@ -1,27 +1,26 @@
 ﻿/*
- * Saves Status
+ * Stores and notify sensors statuses
  */
  
 var express = require('express');
 var azure = require('azure-storage');
 
-
-var STATUS_TABLE_NAME = process.env.STATUS_TABLE_NAME; 
-var STORAGE_ACCOUNT = process.env.STORAGE_ACCOUNT; 
+var STORAGE_ACCOUNT = process.env.STORAGE_ACCOUNT || "UseDevelopmentStorage=true"; 
 var STORAGE_ACCESS_KEY = process.env.STORAGE_ACCESS_KEY;
 
+var TABLE_SENSORS_HISTORY = "SensorsHistory";
+var TABLE_SENSORS_STATE = "SensorsState";
+var TABLE_CLIENTS_STATE = "ClientsState";
 
-exports.report = function (req, res) {
-	var response = {
-		status  : 200,
-		success : 'Updated Successfully'
-	};
+var tableService = azure.createTableService(STORAGE_ACCOUNT, STORAGE_ACCESS_KEY);
+tableService.createTableIfNotExists(TABLE_SENSORS_HISTORY, function () { });
+tableService.createTableIfNotExists(TABLE_SENSORS_STATE, function () { });
+tableService.createTableIfNotExists(TABLE_CLIENTS_STATE, function () { });
+
+exports.post = function (req, res) {
 	
-	//updating 
-	var tableService = azure.createTableService(STORAGE_ACCOUNT, STORAGE_ACCESS_KEY);
-	tableService.createTableIfNotExists(STATUS_TABLE_NAME, function () {
-		console.log("STATUS_TABLE created..")
-	});
+	// store history 	    
+
 	
 	var statusReport = {
 		PartitionKey : { '_': req.body.room, '$': 'Edm.Guid' },//room
@@ -36,5 +35,5 @@ exports.report = function (req, res) {
 		}
 	});
 	
-	res.end(JSON.stringify(response));
+	res.end();
 };
