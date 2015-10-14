@@ -31,9 +31,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="app.js" />
-    <Compile Include="models\sensor.js" />
     <Compile Include="routes\index.js" />
     <Compile Include="routes\sensor.js" />
+    <Compile Include="services\sensorsStorageService.js" />
     <Content Include="Enttoi.json.postman_collection" />
     <Content Include="package.json" />
     <Content Include="public\stylesheets\style.styl" />
@@ -42,7 +42,7 @@
     <Content Include="views\layout.jade" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="models\" />
+    <Folder Include="services\" />
     <Folder Include="public\" />
     <Folder Include="public\images\" />
     <Folder Include="public\javascripts\" />
