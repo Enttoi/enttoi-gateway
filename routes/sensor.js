@@ -8,7 +8,7 @@ var q = require('q');
 
 // validate request
 var validateRequest = function (request) {
-    var s = request.checkBody({
+    request.checkBody({
         'token': {
             notEmpty: true,
             isGuid: true
