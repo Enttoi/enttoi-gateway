@@ -3,12 +3,13 @@
  */
 var util = require('util');
 var tableService = require('../services/sensorsStorageService');
+var documentService = require('../services/clientsDocumentsService');
 var q = require('q');
 
 // validate request
 var validateRequest = function (request) {
     var s = request.checkBody({
-        'client': {
+        'token': {
             notEmpty: true,
             isGuid: true
         },
@@ -40,11 +41,16 @@ var validateRequest = function (request) {
 // validate client
 var authorizeClient = function (request) {
     return q.Promise(function (resolve, reject) {
-        var ALLOWED_CLIENTS = 'e997b810-f0ae-4cde-b933-e2ed6430d2d1';
-        if (ALLOWED_CLIENTS.indexOf(request.body.client) >= 0)
-            resolve(ALLOWED_CLIENTS);
-        else
-            reject({ code: 401 });
+        documentService
+            .getClientByToken(request.body.token)
+            .then(function (client) {
+                if (!client)
+                    reject({ code: 401 });
+                else
+                    resolve(client.clientId);
+            })
+            .fail(function (error) { reject(error); })
+            .done();            
     });
 }
 

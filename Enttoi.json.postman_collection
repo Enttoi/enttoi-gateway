@@ -31,7 +31,7 @@
 			"responses": [],
 			"descriptionFormat": "html",
 			"folder": null,
-			"rawModeData": "{\n    \"client\": \"e997b810-f0ae-4cde-b933-e2ed6430d2d1\",\n    \"sensor_type\": \"cabin_door\",\n    \"sensor_id\": 1,\n    \"state\":1\n}"
+			"rawModeData": "{\n    \"token\": \"e997b810-f0ae-4cde-b933-e2ed6430d2d1\",\n    \"sensor_type\": \"cabin_door\",\n    \"sensor_id\": 1,\n    \"state\":1\n}"
 		}
 	]
 }

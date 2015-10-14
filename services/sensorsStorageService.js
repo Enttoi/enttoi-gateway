@@ -1,18 +1,17 @@
 ﻿var azure = require('azure-storage');
 var util = require('util');
 var q = require('q');
+var config = require('../config');
 
 var tableUtilities = azure.TableUtilities.entityGenerator;
 
-var STORAGE_ACCOUNT = process.env.STORAGE_ACCOUNT || 'UseDevelopmentStorage=true';
-var STORAGE_ACCESS_KEY = process.env.STORAGE_ACCESS_KEY;
 var TABLE_SENSORS_HISTORY = 'SensorsHistory';
 var TABLE_SENSORS_STATE = 'SensorsState';
 var TABLE_CLIENTS_STATE = 'ClientsState';
 var QUEUE_SENSORS_STATE = 'sensor-state-changed';
 
-var tableService = azure.createTableService(STORAGE_ACCOUNT, STORAGE_ACCESS_KEY);
-var queuesService = azure.createQueueService(STORAGE_ACCOUNT, STORAGE_ACCESS_KEY);
+var tableService = azure.createTableService(config.connections.storage.account, config.connections.storage.accessKey);
+var queuesService = azure.createQueueService(config.connections.storage.account, config.connections.storage.accessKey);
 
 var ensureTablesPromise = q.all([
     q.Promise(function (resolve, reject) {
