@@ -51,12 +51,12 @@ var ensureTablesPromise = q.all([
 // store raw history 
 var storeHistory = function (now, clientId, requestModel) {
     var historyEntry = {
-        PartitionKey : tableUtilities.String(util.format('%s_%s_%s', clientId, requestModel.sensor_type, requestModel.sensor_id)),
+        PartitionKey: tableUtilities.String(util.format('%s_%s_%s', clientId, requestModel.sensorType, requestModel.sensorId)),
         RowKey: tableUtilities.String(now.getTime() + ''), // milliseconds since 1 January 1970 00:00:00 UTC
         State: tableUtilities.Int32(requestModel.state),
         TimeStamp: tableUtilities.DateTime(now)
     };
-    
+
     return q.Promise(function (resolve, reject) {
         // requests that arrives at the same time will override because of the RowKey
         tableService.insertOrReplaceEntity(TABLE_SENSORS_HISTORY, historyEntry, function (error, result, response) {
@@ -65,7 +65,7 @@ var storeHistory = function (now, clientId, requestModel) {
             else
                 reject({
                     code: 500,
-                    log: util.format('Failed to insert/update into %s row %s due to %s.', 
+                    log: util.format('Failed to insert/update into %s row %s due to %s.',
                         TABLE_SENSORS_HISTORY, util.inspect(historyEntry), util.inspect(error))
                 });
         });
@@ -75,11 +75,11 @@ var storeHistory = function (now, clientId, requestModel) {
 // store client's keep alive
 var storeClientAlive = function (now, clientId, requestModel) {
     var clientState = {
-        PartitionKey : tableUtilities.String(clientId),
+        PartitionKey: tableUtilities.String(clientId),
         RowKey: tableUtilities.String('LastPing'),
         TimeStamp: tableUtilities.DateTime(now)
     };
-    
+
     return q.Promise(function (resolve, reject) {
         tableService.insertOrReplaceEntity(TABLE_CLIENTS_STATE, clientState, function (error, result, response) {
             if (!error)
@@ -87,7 +87,7 @@ var storeClientAlive = function (now, clientId, requestModel) {
             else
                 reject({
                     code: 500,
-                    log: util.format('Failed to insert/update into %s row %s due to %s.', 
+                    log: util.format('Failed to insert/update into %s row %s due to %s.',
                         TABLE_CLIENTS_STATE, util.inspect(clientState), util.inspect(error))
                 });
         });
@@ -96,8 +96,8 @@ var storeClientAlive = function (now, clientId, requestModel) {
 
 // update sensors current state and send notification to MQ if so
 var updateState = function (now, clientId, requestModel) {
-    var sensorStateRowKey = util.format('%s_%s', requestModel.sensor_type, requestModel.sensor_id);
-    
+    var sensorStateRowKey = util.format('%s_%s', requestModel.sensorType, requestModel.sensorId);
+
     return q.fcall(function () {
         return q.Promise(function (resolve, reject) {
             // get the current state
@@ -105,8 +105,8 @@ var updateState = function (now, clientId, requestModel) {
                 if (error && error.statusCode != 404) {
                     reject({
                         code: 500,
-                        log: util.format('Failed to retrieve from %s row %s due %s.', 
-                        TABLE_SENSORS_STATE, util.inspect({ partioionKey: clientId, rowKey: sensorStateRowKey }), util.inspect(error))
+                        log: util.format('Failed to retrieve from %s row %s due %s.',
+                            TABLE_SENSORS_STATE, util.inspect({ partioionKey: clientId, rowKey: sensorStateRowKey }), util.inspect(error))
                     });
                 }
                 else
@@ -120,14 +120,14 @@ var updateState = function (now, clientId, requestModel) {
                 
                 // create or update model
                 sensorState = {
-                    PartitionKey : tableUtilities.String(clientId),
+                    PartitionKey: tableUtilities.String(clientId),
                     RowKey: tableUtilities.String(sensorStateRowKey),
                     State: tableUtilities.Int32(requestModel.state),
                     TimeStamp: tableUtilities.DateTime(now),
                     PreviousState: tableUtilities.Int32(sensorState ? sensorState.State._ : -1),
                     PreviousStateDurationMs: tableUtilities.Int32(sensorState ? Math.abs(now - sensorState.TimeStamp._) : 0)
                 };
-                
+
                 console.log(util.format('Changing state of: %s', util.inspect(requestModel)));
                 
                 // store the state
@@ -136,7 +136,7 @@ var updateState = function (now, clientId, requestModel) {
                     if (error)
                         reject({
                             code: 500,
-                            log: util.format('Failed to insert/update into %s row %s due to %s.', 
+                            log: util.format('Failed to insert/update into %s row %s due to %s.',
                                 TABLE_SENSORS_STATE, util.inspect(sensorState), util.inspect(error))
                         });
                     else
@@ -155,12 +155,12 @@ var updateState = function (now, clientId, requestModel) {
             else {
                 // send notification
                 var message = {
-                    client: clientId,
-                    sensor_type: requestModel.sensor_type,
-                    sensor_id: requestModel.sensor_id,
-                    new_state: requestModel.state, 
-                    previous_state: sensorState.PreviousState._,
-                    previous_state_duration_ms: sensorState.PreviousStateDurationMs._
+                    clientId: clientId,
+                    sensorType: requestModel.sensorType,
+                    sensorId: requestModel.sensorId,
+                    newState: requestModel.state,
+                    previousState: sensorState.PreviousState._,
+                    previousStateDurationMs: sensorState.PreviousStateDurationMs._
                 };
                 queuesService.createMessage(QUEUE_SENSORS_STATE, JSON.stringify(message), function (error) {
                     if (!error)
@@ -168,7 +168,7 @@ var updateState = function (now, clientId, requestModel) {
                     else
                         reject({
                             code: 500,
-                            log: util.format('Failed to write into %s message %s due to %s.', 
+                            log: util.format('Failed to write into %s message %s due to %s.',
                                 QUEUE_SENSORS_STATE, util.inspect(message), util.inspect(error))
                         });
                 });
@@ -177,7 +177,7 @@ var updateState = function (now, clientId, requestModel) {
     });
 };
 
-exports.storeState = function (clientId, requestModel) {    
+exports.storeState = function (clientId, requestModel) {
     var now = new Date();
 
     // those do in parallel
@@ -185,11 +185,11 @@ exports.storeState = function (clientId, requestModel) {
         // since we store a reference to promise, it will be ALREADY fulfilled on second time and on
         return ensureTablesPromise;
     })
-    .then(function () {
-        // parallelize
-        return q.all([
-            storeHistory(now, clientId, requestModel), 
-            storeClientAlive(now, clientId, requestModel), 
-            updateState(now, clientId, requestModel)]);
-    });  
+        .then(function () {
+            // parallelize
+            return q.all([
+                storeHistory(now, clientId, requestModel),
+                storeClientAlive(now, clientId, requestModel),
+                updateState(now, clientId, requestModel)]);
+        });
 };

@@ -13,13 +13,13 @@ var validateRequest = function (request) {
             notEmpty: true,
             isGuid: true
         },
-        'sensor_type': {
+        'sensorType': {
             notEmpty: true,
             isLength: {
                 options: [2, 15]
             }
         },
-        'sensor_id': {
+        'sensorId': {
             notEmpty: true,
             isInt: true
         },
@@ -29,7 +29,7 @@ var validateRequest = function (request) {
         }
     });
     var errors = request.validationErrors();
-    
+
     return q.Promise(function (resolve, reject) {
         if (!errors)
             resolve();
@@ -50,12 +50,12 @@ var authorizeClient = function (request) {
                     resolve(client.clientId);
             })
             .fail(function (error) { reject(error); })
-            .done();            
+            .done();
     });
 }
 
 exports.post = function (req, res) {
-    
+
     validateRequest(req)
         .then(function () {
             return authorizeClient(req);

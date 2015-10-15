@@ -5,7 +5,7 @@
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
     <Name>EnttoiGateway.Web</Name>
     <RootNamespace>EnttoiGateway.Web</RootNamespace>
-    <Environment>STORAGE_ACCOUNT=UseDevelopmentStorage=true; DOCUMENT_DB_HOST=test.com;DOCUMENT_ACCESS_KEY=test</Environment>
+    <Environment>STORAGE_ACCOUNT=UseDevelopmentStorage=true; DOCUMENT_DB_HOST=enttoi.documents.azure.com;DOCUMENT_ACCESS_KEY=;DOCUMENT_DB_NAME=development</Environment>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
