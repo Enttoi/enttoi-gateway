@@ -34,7 +34,7 @@ var validateRequest = function (request) {
         if (!errors)
             resolve();
         else
-            reject({ code: 400, errors: errors });
+            reject({ statusCode: 400, errors: errors });
     });
 }
 
@@ -45,9 +45,9 @@ var authorizeClient = function (request) {
             .getClientByToken(request.body.token)
             .then(function (client) {
                 if (!client)
-                    reject({ code: 401 });
+                    reject({ statusCode: 401 });
                 else
-                    resolve(client.clientId);
+                    resolve(client.id);
             })
             .fail(function (error) { reject(error); })
             .done();
@@ -71,13 +71,13 @@ exports.post = function (req, res) {
             if (error && error.log) {
                 console.log(error.log);
             }
-            else if (error && !error.code) {
+            else if (error && !error.statusCode) {
                 // an exception was thrown
                 console.log(util.inspect(error));
             }       
         
             // those are either validation/authorization errors or 500
-            res.status(error && error.code ? error.code : 500).send(error.errors);
+            res.status(error && error.statusCode ? error.statusCode : 500).send(error.errors);
         })
         .done();
 };

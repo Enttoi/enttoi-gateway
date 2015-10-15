@@ -5,7 +5,8 @@
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
     <Name>EnttoiGateway.Web</Name>
     <RootNamespace>EnttoiGateway.Web</RootNamespace>
-    <Environment>STORAGE_ACCOUNT=UseDevelopmentStorage=true; DOCUMENT_DB_HOST=enttoi.documents.azure.com;DOCUMENT_ACCESS_KEY=;DOCUMENT_DB_NAME=development</Environment>
+    <Environment>
+    </Environment>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -37,8 +38,8 @@
     <Compile Include="routes\sensor.js" />
     <Compile Include="services\clientsDocumentsService.js" />
     <Compile Include="services\sensorsStorageService.js" />
-    <Content Include="Enttoi.json.postman_collection" />
     <Content Include="package.json" />
+    <Content Include="postman_collection.json" />
     <Content Include="public\stylesheets\style.styl" />
     <Content Include="README.md" />
     <Content Include="views\index.jade" />

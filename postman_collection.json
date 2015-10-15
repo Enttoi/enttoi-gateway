@@ -1,0 +1,54 @@
+{
+	"owner": "118332",
+	"lastUpdatedBy": "118332",
+	"lastRevision": 66425343,
+	"team": null,
+	"id": "4db8c788-01d1-24b3-b76a-d5a4d6ed629c",
+	"name": "Enttoi",
+	"description": "",
+	"remoteLink": "https://www.getpostman.com/collections/40489326758383488e07",
+	"order": [
+		"d284c435-06b0-359b-6c71-8d4de2ebe9d9",
+		"66ef96d5-29d7-ede1-c830-6611b861dbc2"
+	],
+	"requests": [
+		{
+			"id": "66ef96d5-29d7-ede1-c830-6611b861dbc2",
+			"headers": "Content-Type: application/json\n",
+			"url": "http://localhost:1337/sensor",
+			"preRequestScript": "",
+			"pathVariables": {},
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"version": 2,
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1444854543358,
+			"name": "http://localhost:1337/sensor copy",
+			"description": "",
+			"collectionId": "4db8c788-01d1-24b3-b76a-d5a4d6ed629c",
+			"rawModeData": "{\n    \"token\": \"e997b810-f0ae-4cde-b933-e2ed6430d2d1\",\n    \"sensor_type\": \"cabin_door\",\n    \"sensor_id\": 0,\n    \"state\":1\n}"
+		},
+		{
+			"id": "d284c435-06b0-359b-6c71-8d4de2ebe9d9",
+			"headers": "Content-Type: application/json\n",
+			"url": "http://enttoigw.azurewebsites.net/sensor",
+			"preRequestScript": "",
+			"pathVariables": {},
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"version": 2,
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1444854593152,
+			"name": "http://enttoigw.azurewebsites.net/sensor",
+			"description": "",
+			"collectionId": "4db8c788-01d1-24b3-b76a-d5a4d6ed629c",
+			"rawModeData": "{\n    \"token\": \"e997b810-f0ae-4cde-b933-e2ed6430d2d1\",\n    \"sensor_type\": \"cabin_door\",\n    \"sensor_id\": 1,\n    \"state\":1\n}"
+		}
+	]
+}

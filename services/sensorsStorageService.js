@@ -64,7 +64,7 @@ var storeHistory = function (now, clientId, requestModel) {
                 resolve();
             else
                 reject({
-                    code: 500,
+                    statusCode: 500,
                     log: util.format('Failed to insert/update into %s row %s due to %s.',
                         TABLE_SENSORS_HISTORY, util.inspect(historyEntry), util.inspect(error))
                 });
@@ -86,7 +86,7 @@ var storeClientAlive = function (now, clientId, requestModel) {
                 resolve();
             else
                 reject({
-                    code: 500,
+                    statusCode: 500,
                     log: util.format('Failed to insert/update into %s row %s due to %s.',
                         TABLE_CLIENTS_STATE, util.inspect(clientState), util.inspect(error))
                 });
@@ -104,7 +104,7 @@ var updateState = function (now, clientId, requestModel) {
             tableService.retrieveEntity(TABLE_SENSORS_STATE, clientId, sensorStateRowKey, function (error, sensorState, response) {
                 if (error && error.statusCode != 404) {
                     reject({
-                        code: 500,
+                        statusCode: 500,
                         log: util.format('Failed to retrieve from %s row %s due %s.',
                             TABLE_SENSORS_STATE, util.inspect({ partioionKey: clientId, rowKey: sensorStateRowKey }), util.inspect(error))
                     });
@@ -135,7 +135,7 @@ var updateState = function (now, clientId, requestModel) {
                 tableService.insertOrReplaceEntity(TABLE_SENSORS_STATE, sensorState, function (error, result, response) {
                     if (error)
                         reject({
-                            code: 500,
+                            statusCode: 500,
                             log: util.format('Failed to insert/update into %s row %s due to %s.',
                                 TABLE_SENSORS_STATE, util.inspect(sensorState), util.inspect(error))
                         });
@@ -167,7 +167,7 @@ var updateState = function (now, clientId, requestModel) {
                         resolve();
                     else
                         reject({
-                            code: 500,
+                            statusCode: 500,
                             log: util.format('Failed to write into %s message %s due to %s.',
                                 QUEUE_SENSORS_STATE, util.inspect(message), util.inspect(error))
                         });

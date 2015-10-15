@@ -1,31 +1,33 @@
-﻿var client = require('documentdb-q-promises').DocumentClientWrapper;
+﻿var documentClient = require('documentdb-q-promises').DocumentClientWrapper;
+var util = require('util');
 var config = require('../config');
 var q = require('q');
 
-var DOC_DB_NAME = { id: config.connections.documentDb.dbName };
-var DOC_DB_COLLECTION = { id: 'clients' };
-
-var client = new DocumentClient(config.connections.documentDb.endpoint, { masterKey: config.connections.documentDb.authKey });
+var DB_COLL_LINK = util.format('dbs/%s/colls/%s', config.connections.documentDb.dbName, 'clients');
+var client = new documentClient(config.connections.documentDb.endpoint, { masterKey: config.connections.documentDb.authKey });
 
 exports.getClientByToken = function (token) {
 
     var querySpec = {
-        query: 'SELECT * FROM ' + config.connections.documentDb.dbName + ' f WHERE  f.token = @token',
+        query: 'SELECT * FROM c WHERE c.token = @token',
         parameters: [
             {
                 name: '@token',
-                value: 'token'
+                value: token
             }
         ]
     };
 
     return q.Promise(function (resolve, reject) {
-        client.queryCollections(dbLink, querySpec)
-            .then(function (result) {
-                if (results.length === 0)
+        client.queryDocuments(DB_COLL_LINK, querySpec)
+            .toArrayAsync()
+            .then(function (results) {
+                if (results.feed.length === 1)
+                    resolve(results.feed[0]);
+                else if (results.feed.length === 0)                
                     resolve();
                 else
-                    resolve(results[0]);
+                    reject({ statusCode: 400, log: util.format('There multiple clients for token "%s"', token) });
             })
             .fail(function (error) {
                 reject(error);
