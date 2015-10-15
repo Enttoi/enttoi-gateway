@@ -5,6 +5,6 @@
     },
     documentDb: {
         endpoint: process.env.DOCUMENT_DB_HOST,
-        authKey: process.env.DOCUMENT_ACCESS_KEY
+        authKey: process.env.DOCUMENT_DB_ACCESS_KEY
     }   
 };
