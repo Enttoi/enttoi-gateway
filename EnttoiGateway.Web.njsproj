@@ -40,19 +40,12 @@
     <Compile Include="services\sensorsStorageService.js" />
     <Content Include="package.json" />
     <Content Include="postman_collection.json" />
-    <Content Include="public\stylesheets\style.styl" />
     <Content Include="README.md" />
-    <Content Include="views\index.jade" />
-    <Content Include="views\layout.jade" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="services\" />
     <Folder Include="public\" />
-    <Folder Include="public\images\" />
-    <Folder Include="public\javascripts\" />
-    <Folder Include="public\stylesheets\" />
     <Folder Include="routes\" />
-    <Folder Include="views\" />
   </ItemGroup>
   <!-- Do not delete the following Import Project.  While this appears to do nothing it is a marker for setting TypeScript properties before our import that depends on them. -->
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="False" />
