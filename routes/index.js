@@ -4,5 +4,5 @@
  */
 
 exports.index = function (req, res) {
-    res.render('index', { title: 'Enttoi gateway' });
+    res.send('It works!');
 };

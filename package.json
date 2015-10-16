@@ -1,7 +1,11 @@
 {
-  "name": "EnttoiGateway",
+  "name": "Enttoi-Gateway",
   "version": "0.0.1",
+  "license": "MIT",
   "main": "app.js",
+    "engines": {
+    "node": "0.12.x"
+  },
   "dependencies": {
     "azure": "^0.10.6",
     "azure-storage": "^0.6.0",

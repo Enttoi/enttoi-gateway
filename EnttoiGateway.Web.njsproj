@@ -38,6 +38,9 @@
     <Compile Include="routes\sensor.js" />
     <Compile Include="services\clientsDocumentsService.js" />
     <Compile Include="services\sensorsStorageService.js" />
+    <Content Include=".deploy" />
+    <Content Include=".deployment" />
+    <Content Include="deploy.cmd" />
     <Content Include="package.json" />
     <Content Include="postman_collection.json" />
     <Content Include="README.md" />
