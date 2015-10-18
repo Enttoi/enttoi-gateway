@@ -9,7 +9,7 @@ var client = new documentClient(config.connections.documentDb.endpoint, { master
 exports.getClientByToken = function (token) {
 
     var querySpec = {
-        query: 'SELECT * FROM c WHERE c.token = @token',
+        query: 'SELECT c.id FROM c WHERE c.token = @token AND c.isDisabled = false',
         parameters: [
             {
                 name: '@token',
