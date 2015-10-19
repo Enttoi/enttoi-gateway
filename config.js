@@ -1,7 +1,6 @@
 ﻿exports.connections = {
     storage: {
-        account: process.env.STORAGE_ACCOUNT || 'UseDevelopmentStorage=true',
-        accessKey: process.env.STORAGE_ACCESS_KEY
+        connectionString: process.env.STORAGE_CONNECTION_STRING || 'UseDevelopmentStorage=true'
     },
     documentDb: {
         endpoint: process.env.DOCUMENT_DB_ENDPOINT,

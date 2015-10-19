@@ -10,8 +10,8 @@ var TABLE_SENSORS_STATE = 'SensorsState';
 var TABLE_CLIENTS_STATE = 'ClientsState';
 var QUEUE_SENSORS_STATE = 'sensor-state-changed';
 
-var tableService = azure.createTableService(config.connections.storage.account, config.connections.storage.accessKey);
-var queuesService = azure.createQueueService(config.connections.storage.account, config.connections.storage.accessKey);
+var tableService = azure.createTableService(config.connections.storage.connectionString);
+var queuesService = azure.createQueueService(config.connections.storage.connectionString);
 
 var ensureTablesPromise = q.all([
     q.Promise(function (resolve, reject) {
