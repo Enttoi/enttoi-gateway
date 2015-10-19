@@ -10,8 +10,7 @@ var q = require('q');
 var validateRequest = function (request) {
     request.checkBody({
         'token': {
-            notEmpty: true,
-            isGuid: true
+            notEmpty: true
         },
         'sensorType': {
             notEmpty: true,

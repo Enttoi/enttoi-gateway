@@ -17,13 +17,7 @@ var app = express();
 app.set('port', process.env.PORT || 3000);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(expressValidator({
-    customValidators: {
-        isGuid: function (value) {
-            return /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/.test(value)
-        }
-    }
-}));
+app.use(expressValidator());
 
 // development only
 if ('development' == app.get('env')) {
