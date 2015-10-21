@@ -53,6 +53,9 @@ var storeHistory = function (now, clientId, requestModel) {
     var historyEntry = {
         PartitionKey: tableUtilities.String(util.format('%s_%s_%s', clientId, requestModel.sensorType, requestModel.sensorId)),
         RowKey: tableUtilities.String(now.getTime() + ''), // milliseconds since 1 January 1970 00:00:00 UTC
+        ClientId: tableUtilities.String(clientId),
+        SensorType: tableUtilities.String(requestModel.sensorType),
+        SensorId: tableUtilities.Int32(requestModel.sensorId),
         State: tableUtilities.Int32(requestModel.state),
         TimeStamp: tableUtilities.DateTime(now)
     };
@@ -77,6 +80,7 @@ var storeClientAlive = function (now, clientId, requestModel) {
     var clientState = {
         PartitionKey: tableUtilities.String(clientId),
         RowKey: tableUtilities.String('LastPing'),
+        ClientId: tableUtilities.String(clientId),
         TimeStamp: tableUtilities.DateTime(now)
     };
 
@@ -122,6 +126,9 @@ var updateState = function (now, clientId, requestModel) {
                 sensorState = {
                     PartitionKey: tableUtilities.String(clientId),
                     RowKey: tableUtilities.String(sensorStateRowKey),
+                    ClientId: tableUtilities.String(clientId),
+                    SensorType: tableUtilities.String(requestModel.sensorType),
+                    SensorId: tableUtilities.Int32(requestModel.sensorId),
                     State: tableUtilities.Int32(requestModel.state),
                     TimeStamp: tableUtilities.DateTime(now),
                     PreviousState: tableUtilities.Int32(sensorState ? sensorState.State._ : -1),
