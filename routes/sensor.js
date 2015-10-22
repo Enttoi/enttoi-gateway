@@ -4,6 +4,7 @@
 var util = require('util');
 var tableService = require('../services/sensorsStorageService');
 var documentService = require('../services/clientsDocumentsService');
+var notificationsService = require('../services/sensorsNotificationService');
 var q = require('q');
 
 // validate request
@@ -61,6 +62,17 @@ exports.post = function (req, res) {
         })
         .then(function (clientId) {
             return tableService.storeState(clientId, req.body);
+        })
+        .then(function (promisesResult) {
+            // there are multiple promises were involved thus we need to look for the right return value in one of them
+            var sensorState = promisesResult.length ?  promisesResult.find(function (p) { return p && p.model && p.clientId && p.timestamp; }) : promisesResult;                         
+
+            if (sensorState)
+                // state changed => send notification
+                return notificationsService.sendStateChangedMessage(req.body, sensorState);
+            else
+                // no changes made to the state
+                return true;
         })
         .then(function () {
             // all went well => return 200

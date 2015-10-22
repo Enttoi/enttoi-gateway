@@ -8,12 +8,10 @@ var tableUtilities = azure.TableUtilities.entityGenerator;
 var TABLE_SENSORS_HISTORY = 'SensorsHistory';
 var TABLE_SENSORS_STATE = 'SensorsState';
 var TABLE_CLIENTS_STATE = 'ClientsState';
-var QUEUE_SENSORS_STATE = 'sensor-state-changed';
 
 var tableService = azure.createTableService(config.connections.storage.connectionString);
-var queuesService = azure.createQueueService(config.connections.storage.connectionString);
 
-var ensureTablesPromise = q.all([
+var initializationPromise = q.all([
     q.Promise(function (resolve, reject) {
         tableService.createTableIfNotExists(TABLE_SENSORS_HISTORY, function (error) {
             if (error)
@@ -34,14 +32,6 @@ var ensureTablesPromise = q.all([
         tableService.createTableIfNotExists(TABLE_CLIENTS_STATE, function (error) {
             if (error)
                 reject({ log: util.format('Failed to ensure table %s due %s.', TABLE_CLIENTS_STATE, util.inspect(error)) });
-            else
-                resolve();
-        });
-    }),
-    q.Promise(function (resolve, reject) {
-        queuesService.createQueueIfNotExists(QUEUE_SENSORS_STATE, function (error) {
-            if (error)
-                reject({ log: util.format('Failed to ensure queue %s due %s.', QUEUE_SENSORS_STATE, util.inspect(error)) });
             else
                 resolve();
         });
@@ -147,39 +137,12 @@ var updateState = function (now, clientId, requestModel) {
                                 TABLE_SENSORS_STATE, util.inspect(sensorState), util.inspect(error))
                         });
                     else
-                        resolve(sensorState);
+                        resolve({ clientId: clientId, model: sensorState, timestamp: now });
                 });
             }
             else
                 // no changes detected
                 resolve();
-        });
-    }).then(function (sensorState) {
-        return q.Promise(function (resolve, reject) {
-            if (!sensorState)
-                // message doesn't need to be send
-                return resolve();
-            else {
-                // send notification
-                var message = {
-                    clientId: clientId,
-                    sensorType: requestModel.sensorType,
-                    sensorId: requestModel.sensorId,
-                    newState: requestModel.state,
-                    previousState: sensorState.PreviousState._,
-                    previousStateDurationMs: sensorState.PreviousStateDurationMs._
-                };
-                queuesService.createMessage(QUEUE_SENSORS_STATE, JSON.stringify(message), function (error) {
-                    if (!error)
-                        resolve();
-                    else
-                        reject({
-                            statusCode: 500,
-                            log: util.format('Failed to write into %s message %s due to %s.',
-                                QUEUE_SENSORS_STATE, util.inspect(message), util.inspect(error))
-                        });
-                });
-            }
         });
     });
 };
@@ -190,13 +153,13 @@ exports.storeState = function (clientId, requestModel) {
     // those do in parallel
     return q.fcall(function () { 
         // since we store a reference to promise, it will be ALREADY fulfilled on second time and on
-        return ensureTablesPromise;
+        return initializationPromise;
     })
-        .then(function () {
-            // parallelize
-            return q.all([
-                storeHistory(now, clientId, requestModel),
-                storeClientAlive(now, clientId, requestModel),
-                updateState(now, clientId, requestModel)]);
-        });
+    .then(function () {
+        // parallelize
+        return q.all([
+            storeHistory(now, clientId, requestModel),
+            storeClientAlive(now, clientId, requestModel),
+            updateState(now, clientId, requestModel)]);
+    });
 };
