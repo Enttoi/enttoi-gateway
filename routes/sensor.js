@@ -2,9 +2,9 @@
  * Stores and notify sensors statuses
  */
 var util = require('util');
-var tableService = require('../services/sensorsStorageService');
+var tableService = require('../services/tableStorageService');
 var documentService = require('../services/clientsDocumentsService');
-var notificationsService = require('../services/sensorsNotificationService');
+var notificationsService = require('../services/topicServiceBusService');
 var q = require('q');
 
 // validate request

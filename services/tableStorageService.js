@@ -154,7 +154,6 @@ var updateState = function (now, clientId, requestModel) {
 exports.storeState = function (clientId, requestModel) {
     var now = new Date();
 
-    // those do in parallel
     return q.fcall(function () { 
         // since we store a reference to promise, it will be ALREADY fulfilled on second time and on
         return initializationPromise;

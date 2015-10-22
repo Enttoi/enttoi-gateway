@@ -37,8 +37,9 @@
     <Compile Include="routes\index.js" />
     <Compile Include="routes\sensor.js" />
     <Compile Include="services\clientsDocumentsService.js" />
-    <Compile Include="services\sensorsNotificationService.js" />
-    <Compile Include="services\sensorsStorageService.js" />
+    <Compile Include="services\queueStorageService.js" />
+    <Compile Include="services\tableStorageService.js" />
+    <Compile Include="services\topicServiceBusService.js" />
     <Content Include=".deploy" />
     <Content Include=".deployment" />
     <Content Include="deploy.cmd" />
