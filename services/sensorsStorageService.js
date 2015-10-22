@@ -9,7 +9,11 @@ var TABLE_SENSORS_HISTORY = 'SensorsHistory';
 var TABLE_SENSORS_STATE = 'SensorsState';
 var TABLE_CLIENTS_STATE = 'ClientsState';
 
-var tableService = azure.createTableService(config.connections.storage.connectionString);
+var RETRY_COUNT = 3;
+var RETRY_INTERVAL = 500; // in ms
+
+var retryOperations = new azure.LinearRetryPolicyFilter(RETRY_COUNT, RETRY_INTERVAL);
+var tableService = azure.createTableService(config.connections.storage.connectionString).withFilter(retryOperations);
 
 var initializationPromise = q.all([
     q.Promise(function (resolve, reject) {

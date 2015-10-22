@@ -5,7 +5,11 @@ var config = require('../config');
 
 var QUEUE_SENSORS_STATE = 'sensor-state-changed';
 
-var queuesService = azure.createQueueService(config.connections.storage.connectionString);
+var RETRY_COUNT = 3;
+var RETRY_INTERVAL = 500; // in ms
+
+var retryOperations = new azure.LinearRetryPolicyFilter(RETRY_COUNT, RETRY_INTERVAL);
+var queuesService = azure.createQueueService(config.connections.storage.connectionString).withFilter(retryOperations);
 
 var initializationPromise = q.all([
     q.Promise(function (resolve, reject) {
