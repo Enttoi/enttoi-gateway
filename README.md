@@ -18,7 +18,7 @@ Central gateway for all Raspberry Pi's. It is based on [Express](https://github.
   ```shell
   node app.js
   ```
-5. The server will accept POST request at http://localhost:3000/sensor with the following payload:
+5. The server will accept POST request at ```http://localhost:3000/sensor``` with the following payload:
   
   ```js
   {
