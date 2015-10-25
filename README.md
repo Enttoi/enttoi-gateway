@@ -22,7 +22,7 @@ Central gateway for all Raspberry Pi's. It is based on [Express](https://github.
   
   ```js
   {
-    "token": "", // private token
+    "token": "", // private token which identifies the client
     "sensorType": "cabin_door", // type of the sensor that reporting
     "sensorId": 1, // the identifier of specific sensor within list of types
     "state":1 // the code which corresponds to the current state of the sensor
