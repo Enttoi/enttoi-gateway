@@ -6,6 +6,14 @@
   "engines": {
     "node": "5.0.x"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Enttoi/enttoi-gateway-node"
+  },
+  "homepage": "http://enttoi.github.io",
+  "bugs": {
+    "url": "https://github.com/Enttoi/enttoi-gateway-node/issues"
+  },
   "dependencies": {
     "azure": "^0.10.6",
     "azure-storage": "^0.6.0",

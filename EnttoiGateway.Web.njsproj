@@ -40,9 +40,7 @@
     <Compile Include="services\queueStorageService.js" />
     <Compile Include="services\tableStorageService.js" />
     <Compile Include="services\topicServiceBusService.js" />
-    <Content Include=".deploy" />
-    <Content Include=".deployment" />
-    <Content Include="deploy.cmd" />
+    <Content Include=".travis.yml" />
     <Content Include="package.json" />
     <Content Include="postman_collection.json" />
     <Content Include="README.md" />
