@@ -48,7 +48,7 @@ exports.sendStateChangedMessage = function (requestModel, sensorState) {
                     reject({
                         statusCode: 500,
                         log: util.format('Failed to write into %s message %s due to %s.',
-                            QUEUE_SENSORS_STATE, util.inspect(message), util.inspect(error))
+                            TOPIC_SENSORS_STATE, util.inspect(message), util.inspect(error))
                     });
             });
         });
