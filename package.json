@@ -25,6 +25,7 @@
     "express-validator": "^2.18.0",
     "http": "0.0.0",
     "q": "^1.4.1",
-    "routes": "^2.1.0"
+    "routes": "^2.1.0",
+    "node-uuid": "^1.4.7"
   }
 }

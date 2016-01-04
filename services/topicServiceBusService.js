@@ -2,6 +2,7 @@
 var util = require('util');
 var q = require('q');
 var config = require('../config');
+var uuid = require('node-uuid');
 
 var TOPIC_SENSORS_STATE = 'sensor-state-changed';
 
@@ -29,7 +30,10 @@ exports.sendStateChangedMessage = function (requestModel, sensorState) {
     })
     .then(function () {
         return q.Promise(function (resolve, reject) {
-            var message = {                
+            var message = {     
+                brokerProperties:{
+                    MessageId: uuid.v1()
+                },
                 body: JSON.stringify({
                     clientId: sensorState.clientId,
                     sensorType: requestModel.sensorType,
