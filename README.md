@@ -2,9 +2,7 @@
 
 [![Build Status](https://travis-ci.org/Enttoi/enttoi-gateway-node.svg)](https://travis-ci.org/Enttoi/enttoi-gateway-node)
 
-*This repository is part of [Enttoi](http://enttoi.github.io/) project.*
-
-Central gateway for all Raspberry Pi's. It is based on [Express](https://github.com/strongloop/express) for serving REST API endpoint and a set of [SDK's](https://github.com/Azure/azure-sdk-for-node) for interacting with Azure services.
+Central gateway for [Enttoi's clients](https://github.com/Enttoi/enttoi-client). It is based on [Express](https://github.com/strongloop/express) for serving REST API endpoint and a set of [SDK's](https://github.com/Azure/azure-sdk-for-node) for interacting with Azure services.
 
 ## Running in dev
 
