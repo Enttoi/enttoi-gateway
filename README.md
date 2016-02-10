@@ -1,6 +1,6 @@
 # Enttoi Gateway Node.js
 
-[![Build Status](https://travis-ci.org/Enttoi/enttoi-gateway-node.svg)](https://travis-ci.org/Enttoi/enttoi-gateway-node)
+[![Build Status](https://travis-ci.org/Enttoi/enttoi-gateway.svg)](https://travis-ci.org/Enttoi/enttoi-gateway)
 
 Central gateway for [Enttoi's clients](https://github.com/Enttoi/enttoi-client). It is based on [Express](https://github.com/strongloop/express) for serving REST API endpoint and a set of [SDK's](https://github.com/Azure/azure-sdk-for-node) for interacting with Azure services.
 
