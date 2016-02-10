@@ -18,13 +18,13 @@ Central gateway for [Enttoi's clients](https://github.com/Enttoi/enttoi-client).
   ```shell
   node app.js
   ```
-5. The server will accept POST request at ```http://localhost:3000/sensor``` with the following payload:
+5. The server will accept POST request at ```http://localhost:3000/sensor``` with `Authorization` header containing client's tokem and the following payload:
   
   ```js
   {
-    "token": "", // private token which identifies the client
     "sensorType": "cabin_door", // type of the sensor that reporting
     "sensorId": 1, // the identifier of specific sensor within list of types
     "state":1 // the code which corresponds to the current state of the sensor
   }
   ```
+
