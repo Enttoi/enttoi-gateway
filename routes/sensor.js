@@ -10,9 +10,6 @@ var q = require('q');
 // validate request
 var validateRequest = function (request) {
     request.checkBody({
-        'token': {
-            notEmpty: true
-        },
         'sensorType': {
             notEmpty: true,
             isLength: {
@@ -41,8 +38,11 @@ var validateRequest = function (request) {
 // validate client
 var authorizeClient = function (request) {
     return q.Promise(function (resolve, reject) {
+        if(!request.headers.authorization || request.headers.authorization === '')
+            reject({ statusCode: 401 });
+
         documentService
-            .getClientByToken(request.body.token)
+            .getClientByToken(request.headers.authorization)
             .then(function (client) {
                 if (!client)
                     reject({ statusCode: 401 });
