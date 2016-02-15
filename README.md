@@ -24,7 +24,7 @@ Central gateway for [Enttoi's clients](https://github.com/Enttoi/enttoi-client).
   {
     "sensorType": "cabin_door", // type of the sensor that reporting
     "sensorId": 1, // the identifier of specific sensor within list of types
-    "state":1 // the code which corresponds to the current state of the sensor
+    "state":1 // the code which corresponds to the current state of the sensor - can be either 0 or 1
   }
   ```
 
