@@ -5,6 +5,7 @@
 var express = require('express'),
     routes = require('./routes'),
     sensor = require('./routes/sensor'),
+    client = require('./routes/client'),
     http = require('http'),
     path = require('path'),
     bodyParser = require('body-parser'),
@@ -27,7 +28,8 @@ if ('development' == app.get('env')) {
 // routes
 var router = express.Router();
 router.get('/', routes.index);
-router.post('/sensor', sensor.post);
+router.post('/sensor', sensor.state);
+router.post('/client/heartbeat', client.heartbeat);
 app.use('/', router);
 
 // server

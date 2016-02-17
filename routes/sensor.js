@@ -54,7 +54,7 @@ var authorizeClient = function (request) {
     });
 }
 
-exports.post = function (req, res) {
+exports.state = function (req, res) {
 
     validateRequest(req)
         .then(function () {
