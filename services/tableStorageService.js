@@ -70,7 +70,7 @@ var storeHistory = function (now, clientId, requestModel) {
 };
 
 // store client's keep alive
-var storeClientAlive = function (now, clientId, requestModel) {
+var storeClientAlive = function (now, clientId) {
     var clientState = {
         PartitionKey: tableUtilities.String(clientId),
         RowKey: tableUtilities.String('LastPing'),
@@ -162,7 +162,20 @@ exports.storeState = function (clientId, requestModel) {
         // parallelize
         return q.all([
             storeHistory(now, clientId, requestModel),
-            storeClientAlive(now, clientId, requestModel),
+            storeClientAlive(now, clientId),
             updateState(now, clientId, requestModel)]);
+    });
+};
+
+exports.clientHeartBeat = function (clientId) {
+    var now = new Date();
+
+    return q.fcall(function () { 
+        // since we store a reference to promise, it will be ALREADY fulfilled on second time and on
+        return initializationPromise;
+    })
+    .then(function () {
+        // parallelize
+        return storeClientAlive(now, clientId);
     });
 };
