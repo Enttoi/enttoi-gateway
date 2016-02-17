@@ -1,5 +1,5 @@
 {
-  "name": "Enttoi-Gateway",
+  "name": "EnttoiGateway",
   "version": "0.0.1",
   "license": "MIT",
   "main": "app.js",
@@ -8,11 +8,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Enttoi/enttoi-gateway-node"
+    "url": "https://github.com/Enttoi/enttoi-gateway"
   },
   "homepage": "http://enttoi.github.io",
   "bugs": {
-    "url": "https://github.com/Enttoi/enttoi-gateway-node/issues"
+    "url": "https://github.com/Enttoi/enttoi-gateway/issues"
   },
   "dependencies": {
     "azure": "^0.10.6",
