@@ -21,9 +21,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(expressValidator());
 
 // development only
-//if ('development' == app.get('env')) {
+if ('development' == app.get('env')) {
     app.use(errorhandler({ dumpExceptions: true, showStack: true }));
-//}
+}
 
 // routes
 var router = express.Router();
