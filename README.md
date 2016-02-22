@@ -30,12 +30,12 @@ the client becomes 'offline'.
 2. `/sensor` - for updating state of the sensor. In addition the API is also served as heart beat of the 
 client (same as `/client/heartbeat`), so if state is sent frequently there is no need to call to `/client/heartbeat`.
 The following payload must be supplied:
-  ```js
-  {
-    "sensorType": "cabin_door", // type of the sensor that reporting
-    "sensorId": 1, // the identifier of specific sensor within list of types
-    "state":1 // the code which corresponds to the current state of the sensor - can be either 0 or 1
-  }  
+```js
+{
+  "sensorType": "cabin_door", // type of the sensor that reporting
+  "sensorId": 1, // the identifier of specific sensor within list of types
+  "state":1 // the code which corresponds to the current state of the sensor - can be either 0 or 1
+}  
   ```
 
 
