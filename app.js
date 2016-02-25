@@ -18,7 +18,16 @@ var app = express();
 app.set('port', process.env.PORT || 3000);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(expressValidator());
+app.use(expressValidator({
+    customValidators: {
+        gte: function (param, num) {
+            return param >= num;
+        },
+        lte: function (param, num) {
+            return param <= num;
+        }
+    }
+}));
 
 // development only
 if ('development' == app.get('env')) {

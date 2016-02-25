@@ -18,11 +18,15 @@ var validateRequest = function (request) {
         },
         'sensorId': {
             notEmpty: true,
-            isInt: true
+            isInt: true,
+            gte: { options: [1], errorMessage: 'Not within accepted range' },
+            lte: { options: [2], errorMessage: 'Not within accepted range' }
         },
         'state': {
             notEmpty: true,
-            isInt: true
+            isInt: true,
+            gte: { options: [0], errorMessage: 'Not within accepted range' },
+            lte: { options: [1], errorMessage: 'Not within accepted range' }
         }
     });
     var errors = request.validationErrors();
@@ -38,7 +42,7 @@ var validateRequest = function (request) {
 // validate client
 var authorizeClient = function (request) {
     return q.Promise(function (resolve, reject) {
-        if(!request.headers.authorization || request.headers.authorization === '')
+        if (!request.headers.authorization || request.headers.authorization === '')
             reject({ statusCode: 401 });
 
         documentService
@@ -65,7 +69,7 @@ exports.state = function (req, res) {
         })
         .then(function (promisesResult) {
             // there are multiple promises were involved thus we need to look for the right return value in one of them
-            var sensorState = promisesResult.length ?  promisesResult.find(function (p) { return p && p.model && p.clientId && p.timestamp; }) : promisesResult;                         
+            var sensorState = promisesResult.length ? promisesResult.find(function (p) { return p && p.model && p.clientId && p.timestamp; }) : promisesResult;
 
             if (sensorState)
                 // state changed => send notification
