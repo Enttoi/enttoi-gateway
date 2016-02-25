@@ -114,34 +114,62 @@ var updateState = function (now, clientId, requestModel) {
     }).then(function (sensorState) {
         // detect if the state was changed or never added before    
         return q.Promise(function (resolve, reject) {
-            if (sensorState == null || (sensorState.State._ != requestModel.state && sensorState.TimeStamp._ < now)) {
-                
-                // create or update model
+            if (sensorState == null) {
+                //no previous record => create a new entity (this will happen only for the first ever reported state)
                 sensorState = {
                     PartitionKey: tableUtilities.String(clientId),
                     RowKey: tableUtilities.String(sensorStateRowKey),
                     ClientId: tableUtilities.String(clientId),
                     SensorType: tableUtilities.String(requestModel.sensorType),
                     SensorId: tableUtilities.Int32(requestModel.sensorId),
+
                     State: tableUtilities.Int32(requestModel.state),
                     TimeStamp: tableUtilities.DateTime(now),
-                    PreviousState: tableUtilities.Int32(sensorState ? sensorState.State._ : -1),
-                    PreviousStateDurationMs: tableUtilities.Int32(sensorState ? Math.abs(now - sensorState.TimeStamp._) : 0)
+                    PreviousState: tableUtilities.Int32(-1),
+                    PreviousStateDurationMs: tableUtilities.Int32(0)
                 };
 
-                console.log(util.format('Changing state of: %s', util.inspect(requestModel)));
-                
-                // store the state
-                // TODO: since there is no lock, state might change between queering and writing back
-                tableService.insertOrReplaceEntity(TABLE_SENSORS_STATE, sensorState, function (error, result, response) {
+                tableService.insertEntity(TABLE_SENSORS_STATE, sensorState, function (error, result, response) {
                     if (error)
                         reject({
                             statusCode: 500,
-                            log: util.format('Failed to insert/update into %s row %s due to %s.',
+                            log: util.format('Failed to insert into %s row %s due to %s.',
                                 TABLE_SENSORS_STATE, util.inspect(sensorState), util.inspect(error))
                         });
                     else
                         resolve({ clientId: clientId, model: sensorState, timestamp: now });
+                });
+            }
+            else if (sensorState.State._ != requestModel.state && sensorState.TimeStamp._ < now) {
+                // udpate existing record (most of the cases)
+                sensorState.State = tableUtilities.Int32(requestModel.state);
+                sensorState.TimeStamp = tableUtilities.DateTime(now);
+                sensorState.PreviousState = tableUtilities.Int32(sensorState.State._);
+                sensorState.PreviousStateDurationMs = tableUtilities.Int32(Math.abs(now - sensorState.TimeStamp._));
+
+                // NOTE
+                // concurrency handled with optimistic lock: the passed from query 'sensorState'
+                // object contains a field [".metadata"].etag, read more here:
+                // https://azure.microsoft.com/en-us/blog/managing-concurrency-in-microsoft-azure-storage-2/
+                tableService.updateEntity(TABLE_SENSORS_STATE, sensorState, function (error, result, response) {
+                    if (error)
+                        if (error.statusCode == 412) {
+                            reject({
+                                statusCode: 412,
+                                log: util.format('Failed to update %s row %s due to %s.',
+                                    TABLE_SENSORS_STATE, util.inspect(sensorState), util.inspect(error))
+                            });
+                        }
+                        else
+                            reject({
+                                statusCode: 500,
+                                log: util.format('Failed to update %s row %s due to %s.',
+                                    TABLE_SENSORS_STATE, util.inspect(sensorState), util.inspect(error))
+                            });
+                    else {
+                        console.log(util.format('Changed state of: %s', util.inspect(requestModel)));
+                        resolve({ clientId: clientId, model: sensorState, timestamp: now });
+                    }
                 });
             }
             else
@@ -158,13 +186,13 @@ exports.storeState = function (clientId, requestModel) {
         // since we store a reference to promise, it will be ALREADY fulfilled on second time and on
         return initializationPromise;
     })
-    .then(function () {
-        // parallelize
-        return q.all([
-            storeHistory(now, clientId, requestModel),
-            storeClientAlive(now, clientId),
-            updateState(now, clientId, requestModel)]);
-    });
+        .then(function () {
+            // parallelize
+            return q.all([
+                storeHistory(now, clientId, requestModel),
+                storeClientAlive(now, clientId),
+                updateState(now, clientId, requestModel)]);
+        });
 };
 
 exports.clientHeartBeat = function (clientId) {
@@ -174,8 +202,8 @@ exports.clientHeartBeat = function (clientId) {
         // since we store a reference to promise, it will be ALREADY fulfilled on second time and on
         return initializationPromise;
     })
-    .then(function () {
-        // parallelize
-        return storeClientAlive(now, clientId);
-    });
+        .then(function () {
+            // parallelize
+            return storeClientAlive(now, clientId);
+        });
 };
