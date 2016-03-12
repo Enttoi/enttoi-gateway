@@ -5,7 +5,6 @@ var config = require('../config');
 
 var tableUtilities = azure.TableUtilities.entityGenerator;
 
-var TABLE_SENSORS_HISTORY = 'SensorsHistory';
 var TABLE_SENSORS_STATE = 'SensorsState';
 var TABLE_CLIENTS_STATE = 'ClientsState';
 
@@ -16,14 +15,6 @@ var retryOperations = new azure.LinearRetryPolicyFilter(RETRY_COUNT, RETRY_INTER
 var tableService = azure.createTableService(config.connections.storage.connectionString).withFilter(retryOperations);
 
 var initializationPromise = q.all([
-    q.Promise(function (resolve, reject) {
-        tableService.createTableIfNotExists(TABLE_SENSORS_HISTORY, function (error) {
-            if (error)
-                reject({ log: util.format('Failed to ensure table %s due %s.', TABLE_SENSORS_HISTORY, util.inspect(error)) });
-            else
-                resolve();
-        });
-    }),
     q.Promise(function (resolve, reject) {
         tableService.createTableIfNotExists(TABLE_SENSORS_STATE, function (error) {
             if (error)
@@ -41,33 +32,6 @@ var initializationPromise = q.all([
         });
     })
 ]);
-
-// store raw history 
-var storeHistory = function (now, clientId, requestModel) {
-    var historyEntry = {
-        PartitionKey: tableUtilities.String(util.format('%s_%s_%s', clientId, requestModel.sensorType, requestModel.sensorId)),
-        RowKey: tableUtilities.String(now.getTime() + ''), // milliseconds since 1 January 1970 00:00:00 UTC
-        ClientId: tableUtilities.String(clientId),
-        SensorType: tableUtilities.String(requestModel.sensorType),
-        SensorId: tableUtilities.Int32(requestModel.sensorId),
-        State: tableUtilities.Int32(requestModel.state),
-        TimeStamp: tableUtilities.DateTime(now)
-    };
-
-    return q.Promise(function (resolve, reject) {
-        // requests that arrives at the same time will override because of the RowKey
-        tableService.insertOrReplaceEntity(TABLE_SENSORS_HISTORY, historyEntry, function (error, result, response) {
-            if (!error)
-                resolve();
-            else
-                reject({
-                    statusCode: 500,
-                    log: util.format('Failed to insert/update into %s row %s due to %s.',
-                        TABLE_SENSORS_HISTORY, util.inspect(historyEntry), util.inspect(error))
-                });
-        });
-    });
-};
 
 // store client's keep alive
 var storeClientAlive = function (now, clientId) {
@@ -92,7 +56,7 @@ var storeClientAlive = function (now, clientId) {
     });
 };
 
-// update sensors current state and send notification to MQ if so
+// update sensors current state and if changed store hostory and send notification to MQ
 var updateState = function (now, clientId, requestModel) {
     var sensorStateRowKey = util.format('%s_%s', requestModel.sensorType, requestModel.sensorId);
 
@@ -189,7 +153,6 @@ exports.storeState = function (clientId, requestModel) {
         .then(function () {
             // parallelize
             return q.all([
-                storeHistory(now, clientId, requestModel),
                 storeClientAlive(now, clientId),
                 updateState(now, clientId, requestModel)]);
         });
