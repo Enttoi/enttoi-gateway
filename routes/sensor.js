@@ -20,7 +20,7 @@ var validateRequest = function (request) {
             notEmpty: true,
             isInt: true,
             gte: { options: [1], errorMessage: 'Not within accepted range' },
-            lte: { options: [2], errorMessage: 'Not within accepted range' }
+            lte: { options: [3], errorMessage: 'Not within accepted range' }
         },
         'state': {
             notEmpty: true,
