@@ -106,10 +106,10 @@ var updateState = function (now, clientId, requestModel) {
             }
             else if (sensorState.State._ != requestModel.state && sensorState.TimeStamp._ < now) {
                 // udpate existing record (most of the cases)
-                sensorState.State = tableUtilities.Int32(requestModel.state);
-                sensorState.TimeStamp = tableUtilities.DateTime(now);
                 sensorState.PreviousState = tableUtilities.Int32(sensorState.State._);
                 sensorState.PreviousStateDurationMs = tableUtilities.Int32(Math.abs(now - sensorState.TimeStamp._));
+                sensorState.State = tableUtilities.Int32(requestModel.state);
+                sensorState.TimeStamp = tableUtilities.DateTime(now);
 
                 // NOTE
                 // concurrency handled with optimistic lock: the passed from query 'sensorState'
