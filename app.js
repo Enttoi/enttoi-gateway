@@ -1,6 +1,5 @@
-﻿/**
- * Module dependencies.
- */
+if(process.env.NEWRELIC_LICENSEKEY)
+    require('newrelic');
 
 var express = require('express'),
     routes = require('./routes'),
