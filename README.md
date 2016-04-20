@@ -1,7 +1,5 @@
 # Enttoi Gateway
 
-[![Build Status](https://travis-ci.org/Enttoi/enttoi-gateway.svg)](https://travis-ci.org/Enttoi/enttoi-gateway)
-
 |Branch|Travis|
 |------|:------:|
 |master|[![Build Status](https://img.shields.io/travis/Enttoi/enttoi-gateway/master.svg)](https://travis-ci.org/Enttoi/enttoi-gateway)|
